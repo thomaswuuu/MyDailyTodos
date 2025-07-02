@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
+import Tooltip from './components/Tooltip.vue'
 
 interface Todo {
   id: number;
@@ -255,7 +256,9 @@ const exportTodos = () => {
               class="edit-input"
             />
             <button @click="removeTodo(todo)" class="delete-button">Delete</button>
-            <button @click="moveTodoToNextDay(todo)" class="move-button">Move</button>
+            <Tooltip text="Move to Tomorrow">
+              <button @click="moveTodoToNextDay(todo)" class="move-button">Move</button>
+            </Tooltip>
           </li>
           <p v-if="pendingTodos.length === 0" class="empty-message">No pending tasks.</p>
         </ul>
@@ -324,8 +327,8 @@ body {
   padding: 40px;
   border-radius: 16px;
   box-shadow: 0 10px 30px var(--shadow-medium); /* More pronounced shadow */
-  width: 600px;
-  max-width: 720px;
+  width: 100%;
+  max-width: 640px;
   text-align: center;
   animation: fadeInScale 0.6s ease-out forwards; /* New animation */
   /* Removed position: fixed, top, left, transform */
@@ -365,11 +368,11 @@ h1 {
 
 .date-input {
   flex-grow: 1;
-  margin: 0 10px; /* Space between buttons and input */
+  margin: 0 4px; /* Space between buttons and input */
   padding: 8px 12px;
   border: 2px solid var(--border-color);
   border-radius: 8px;
-  font-size: 20px;
+  font-size: 1.3em;
   color: var(--text-color-dark);
   text-align: center;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
@@ -388,7 +391,7 @@ h1 {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 20px; /* Reverted font size */
+  font-size: 1.3em;
   font-weight: 500;
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
   box-shadow: 0 2px 5px var(--shadow-light);
@@ -414,7 +417,7 @@ h1 {
   padding: 14px 18px; /* Reverted padding */
   border: 2px solid var(--border-color);
   border-radius: 10px; /* Reverted border-radius */
-  font-size: 18px;
+  font-size: 1.2em;
   color: var(--text-color-dark);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -432,7 +435,7 @@ h1 {
   border: none;
   border-radius: 10px; /* Slightly more rounded corners */
   cursor: pointer;
-  font-size: 20px;
+  font-size: 1.2em;
   font-weight: 700; /* Bolder font */
   transition: all 0.3s ease; /* Smoother transition for all properties */
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* More prominent shadow */
@@ -662,12 +665,27 @@ h1 {
     font-size: 1.1em;
   }
 
-  .delete-button,
-  .move-button {
+  .delete-button {
     order: 3;
     margin-left: 0;
     width: 100%;
     margin-top: 10px;
+    box-sizing: border-box;
+  }
+
+  .todo-list li .tooltip-container {
+    order: 4; /* Ensure tooltip container is also ordered correctly */
+    margin-left: 0;
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center; /* Center the button within the tooltip container */
+  }
+
+  .todo-list li .tooltip-container .move-button {
+    width: 100%; /* Ensure move button takes full width within its container */
+    box-sizing: border-box;
+    margin-left: 0;
   }
 
   .summary {

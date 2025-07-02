@@ -693,6 +693,14 @@ h1 {
     font-size: 0.95em;
   }
 }
+
+@media (max-width: 490px) {
+  .nav-button {
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
 .export-button {
   padding: 10px 18px;
   background-color: #28a745; /* A nice green */
